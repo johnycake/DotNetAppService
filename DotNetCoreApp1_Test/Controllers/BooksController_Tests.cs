@@ -48,17 +48,14 @@ namespace UnitTesting.Controllers
         public async void Find_Book_By_ID()
         {
             // Arrange
-            var myBookDtoContextMock = new Mock<AppDbContext>(new DbContextOptions<AppDbContext>());
-            myBookDtoContextMock
-                .Setup(x => x.Books)
-                .ReturnsDbSet(BooksController_Fixture.FakeBookDtoList);
-            var myBookRepository = new BookRepository(myBookDtoContextMock.Object);
+            using var myAppDbContext = fixture.GetContext();
+            var myBookRepository = new BookRepository(myAppDbContext);
             BookDtoValidator myBookDtoValidator = new(myBookRepository);
-            BooksController sut = new(myBookDtoContextMock.Object, myBookRepository, Mapper, BookValidator, myBookDtoValidator);
-         
+            BooksController sut = new(myAppDbContext, myBookRepository, Mapper, BookValidator, myBookDtoValidator);
+
 
             // Act
-            var actionResult = await sut.GetBook(new Guid("62b15c71-7109-4eb8-ac14-ee60d7d5575a"));
+            var actionResult = await sut.GetBook(fixture.bookIdToFind);
 
             // Assert
             Assert.NotNull(actionResult);

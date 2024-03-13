@@ -65,6 +65,7 @@ namespace DotNetCoreApp1_Test.Controllers.TestData
                     Surname = "Ceresna",
                     RoleId = "User"
                 };
+        public Guid userIdToFind = new("7176f3ed-3859-4f54-917f-e3ecfadb2de8");
         public Guid userIdToDelete = new("5e388433-24e2-4b97-8e68-5a7c05d191f2");
         public UsersController_Fixture()
         {

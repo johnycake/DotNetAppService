@@ -53,21 +53,18 @@ namespace UnitTesting.Controllers
         public async void Find_User_By_ID()
         {
             // Arrange
-            var myUserDtoContextMock = new Mock<AppDbContext>(new DbContextOptions<AppDbContext>());
-            myUserDtoContextMock
-                .Setup(x => x.Users)
-                .ReturnsDbSet(UsersController_Fixture.FakeUserDtoList);
-            var myUserRepository = new UserRepository(myUserDtoContextMock.Object);
-            UsersController sut = new(myUserDtoContextMock.Object, myUserRepository, Mapper, UserValidator, UserDtoValidator, PasswordChangeValidator);
+            using var myAppDbContext = fixture.GetContext();
+            var myUserRepository = new UserRepository(myAppDbContext);
+            UsersController sut = new(myAppDbContext, myUserRepository, Mapper, UserValidator, UserDtoValidator, PasswordChangeValidator);
 
             // Act
-            var actionResult = await sut.GetUser(new Guid("2f4c995f-4502-4f29-9b2d-26ff6f0b765c"));
+            var actionResult = await sut.GetUser(fixture.userIdToFind);
 
             // Assert
             Assert.NotNull(actionResult);
             var result = actionResult.Result as OkObjectResult;
             var userDtoSutResult = result?.Value as UserDto;
-            Assert.Equal("Cibula", userDtoSutResult?.Surname);
+            Assert.Equal("Zelovocu", userDtoSutResult?.Surname);
         }
 
         [Fact]

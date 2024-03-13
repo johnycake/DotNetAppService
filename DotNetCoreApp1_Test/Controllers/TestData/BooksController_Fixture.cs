@@ -48,7 +48,9 @@ namespace DotNetCoreApp1_Test.Controllers.TestData
             Genre = "Total Drama",
             Content = "treba kavu.... a vela"
         };
+        public Guid bookIdToFind = new("62b15c71-7109-4eb8-ac14-ee60d7d5575a");
         public Guid bookIdToDelete = new("801a9493-c0d4-4027-ab19-5943bc965588");
+
         public BooksController_Fixture()
         {
             _options = new DbContextOptionsBuilder<AppDbContext>()
